@@ -25,6 +25,7 @@ public class MainApplicationFrame extends JFrame
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     private Localization lok = new Localization();
+    private final RobotController controller;
 
     AtomicReference<Locale> sk_loc = new AtomicReference<>(new Locale("en"));
     AtomicReference<ResourceBundle> bundle =
@@ -45,7 +46,9 @@ public class MainApplicationFrame extends JFrame
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
 
-        GameWindow gameWindow = new GameWindow();
+        this.controller = new RobotController();
+
+        GameWindow gameWindow = new GameWindow(controller);
         gameWindow.setSize(400,  400);
         addWindow(gameWindow);
 
