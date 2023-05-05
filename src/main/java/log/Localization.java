@@ -14,7 +14,7 @@ public class Localization {
                                                            sk_loc.get()));
 
     private  HashMap<Class, ArrayList<AbstractButton>> handlers = new HashMap<>();
-    private ArrayList<ArrayList<Object>> g =
+    private ArrayList<ArrayList<Object>> setObjectsChange =
             new ArrayList<>();
 
     public void addElement(AbstractButton c, String key)
@@ -23,7 +23,7 @@ public class Localization {
         elem.add(c);
         elem.add(key);
 
-        g.add(elem);
+        setObjectsChange.add(elem);
         if (handlers.containsKey(c.getClass())) {
             ArrayList<AbstractButton> a = handlers.get(c.getClass());
             a.add(c);
@@ -44,10 +44,10 @@ public class Localization {
     public void changeLanguage(String newLocale)
     {
         changeLocale(newLocale);
-        for (ArrayList<? extends  Object> i : g ){
-            AbstractButton n = (AbstractButton) i.get(0);
-            String key = (String) i.get(1);
-            setStringResource(n, key);
+        for (ArrayList<? extends  Object> element : setObjectsChange ){
+            AbstractButton button = (AbstractButton) element.get(0);
+            String key = (String) element.get(1);
+            setStringResource(button, key);
 
         }
 

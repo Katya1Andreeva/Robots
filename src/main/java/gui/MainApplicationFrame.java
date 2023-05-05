@@ -26,10 +26,6 @@ public class MainApplicationFrame extends JFrame
 
     private Localization lok = new Localization();
     private final RobotController controller;
-
-    AtomicReference<Locale> sk_loc = new AtomicReference<>(new Locale("en"));
-    AtomicReference<ResourceBundle> bundle =
-            new AtomicReference<>(ResourceBundle.getBundle("message", sk_loc.get()));
     
     public MainApplicationFrame() {
         //Make the big window be indented 50 pixels from each edge
