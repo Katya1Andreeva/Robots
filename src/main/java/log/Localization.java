@@ -1,7 +1,6 @@
 package log;
 
 import javax.swing.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -12,26 +11,16 @@ public class Localization {
     private AtomicReference<ResourceBundle> bundle =
             new AtomicReference<>(ResourceBundle.getBundle("message",
                                                            sk_loc.get()));
-
-    private  HashMap<Class, ArrayList<AbstractButton>> handlers = new HashMap<>();
     private ArrayList<ArrayList<Object>> setObjectsChange =
             new ArrayList<>();
 
-    public void addElement(AbstractButton c, String key)
+    public void addElement(AbstractButton button, String key)
     {
         ArrayList<Object> elem = new ArrayList<>();
-        elem.add(c);
+        elem.add(button);
         elem.add(key);
 
         setObjectsChange.add(elem);
-        if (handlers.containsKey(c.getClass())) {
-            ArrayList<AbstractButton> a = handlers.get(c.getClass());
-            a.add(c);
-        } else {
-            ArrayList<AbstractButton> components = new ArrayList<AbstractButton>();
-            components.add(c);
-            handlers.put(c.getClass(), components);
-        }
     }
 
 
@@ -54,15 +43,11 @@ public class Localization {
     }
 
    public void setStringResource(AbstractButton element, String key) {
-       element.setText(new String(
-               bundle.get().getString(key).getBytes(StandardCharsets.ISO_8859_1),
-               StandardCharsets.UTF_8));
+       element.setText(bundle.get().getString(key));
 
    }
 
     public String getStringResource(String key) {
-        return new String(
-                bundle.get().getString(key).getBytes(StandardCharsets.ISO_8859_1),
-                StandardCharsets.UTF_8);
+        return bundle.get().getString(key);
     }
 }
