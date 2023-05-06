@@ -100,45 +100,50 @@ public class MainApplicationFrame extends JFrame
     {
         JMenuBar menuBar = new JMenuBar();
         
-        JMenu lookAndFeelMenu = new JMenu("Режим отображения");
+        JMenu lookAndFeelMenu = new JMenu(lok.getStringResource("lookAndFeelMenu"));
         lookAndFeelMenu.setMnemonic(KeyEvent.VK_V);
         lookAndFeelMenu.getAccessibleContext().setAccessibleDescription(
                 "Управление режимом отображения приложения");
+        lok.addElement(lookAndFeelMenu, "lookAndFeelMenu");
         
         {
             JMenuItem systemLookAndFeel = new JMenuItem(
-                                     "Системная схема",
+                    lok.getStringResource("systemLookAndFeel"),
                                       KeyEvent.VK_S);
             systemLookAndFeel.addActionListener((event) -> {
                 setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 this.invalidate();
             });
             lookAndFeelMenu.add(systemLookAndFeel);
+            lok.addElement(systemLookAndFeel, "systemLookAndFeel");
         }
 
         {
             JMenuItem crossplatformLookAndFeel = new JMenuItem(
-                                           "Универсальная схема",
+                    lok.getStringResource("crossplatform"),
                                                 KeyEvent.VK_S);
             crossplatformLookAndFeel.addActionListener((event) -> {
                 setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
                 this.invalidate();
             });
             lookAndFeelMenu.add(crossplatformLookAndFeel);
+            lok.addElement(crossplatformLookAndFeel, "crossplatform");
         }
 
-        JMenu testMenu = new JMenu("Тесты");
+        JMenu testMenu = new JMenu(lok.getStringResource("test"));
         testMenu.setMnemonic(KeyEvent.VK_T);
         testMenu.getAccessibleContext().setAccessibleDescription(
                 "Тестовые команды");
+        lok.addElement(testMenu, "test");
         {
             JMenuItem addLogMessageItem = new JMenuItem(
-                                     "Сообщение в лог",
+                    lok.getStringResource("messageLog"),
                                            KeyEvent.VK_S);
             addLogMessageItem.addActionListener((event) -> {
                 Logger.debug("Новая строка");
             });
             testMenu.add(addLogMessageItem);
+            lok.addElement(addLogMessageItem, "messageLog");
         }
 
 
@@ -169,7 +174,7 @@ public class MainApplicationFrame extends JFrame
 
         JMenu changeLanguageMenu = new JMenu(lok.getStringResource("changeLanguage"));
         settingsMenu.add(changeLanguageMenu);
-        lok.addElement(settingsMenu, "changeLanguage");
+        lok.addElement(changeLanguageMenu, "changeLanguage");
 
         {
             JMenuItem enLanguageButton = new JMenuItem(
