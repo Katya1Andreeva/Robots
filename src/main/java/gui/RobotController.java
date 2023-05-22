@@ -4,19 +4,22 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
-import java.util.List;
+import MVC.Constants;
+import MVC.RobotModel;
+import MVC.TargetModel;
 
 public class RobotController  {
-    private final RobotState robot;
+    private RobotModel robot;
+
+    private  TargetModel target;
     private final GameVisualizer visualizer;
     private final Timer m_timer = initTimer();
 
-    private volatile int m_targetPositionX = 150;
-    private volatile int m_targetPositionY = 100;
-    private final double duration = 10;
+
 
     public RobotController() {
-        this.robot = new RobotState();
+        this.robot = new RobotModel(100, 100, 0);
+        this.target = new TargetModel(100, 100);
         this.visualizer = new GameVisualizer(this);
 
         m_timer.schedule(new TimerTask()
@@ -40,8 +43,8 @@ public class RobotController  {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                setTargetPositionX(e.getPoint().x);
-                setTargetPositionY(e.getPoint().y);
+                target.setPositionX(e.getPoint().x);
+                target.setPositionY(e.getPoint().y);
                 visualizer.repaint();
             }
         });
@@ -57,33 +60,13 @@ public class RobotController  {
         return this.visualizer;
     }
 
-    public double getRobotPositionX() {
-        return robot.getRobotPositionX();
+    public RobotModel getRobotModel() {
+        return robot;
+    }
+    public TargetModel getTargetModel() {
+        return target;
     }
 
-    public double getRobotPositionY() {
-        return robot.getRobotPositionY();
-    }
-
-    public double getRobotDirection() {
-        return robot.getRobotDirection();
-    }
-
-    public int getTargetPositionX() {
-        return m_targetPositionX;
-    }
-
-    public int getTargetPositionY() {
-        return m_targetPositionY;
-    }
-
-    public void setTargetPositionX(int newTargetX) {
-        this.m_targetPositionX = newTargetX;
-    }
-
-    public void setTargetPositionY(int newTargetY) {
-        this.m_targetPositionY = newTargetY;
-    }
 
     protected void onRedrawEvent()
     {
@@ -91,7 +74,7 @@ public class RobotController  {
     }
 
     protected void onModelUpdateEvent() {
-        moveRobot(m_targetPositionX, m_targetPositionY, duration);
+        moveRobot((int) target.getPositionX(), (int) target.getPositionY(), Constants.DURATION);
     }
 
     private static double distance(double x1, double y1, double x2, double y2)
@@ -135,45 +118,45 @@ public class RobotController  {
     public void moveRobot(int targetPositionX, int targetPositionY, double duration)
     {
         double distance = distance(targetPositionX, targetPositionY,
-                robot.getRobotPositionX(), robot.getRobotPositionY());
+                robot.getPositionX(), robot.getPositionY());
         if (distance < 0.5)
         {
             return;
         }
-        double velocity = RobotState.MAX_VELOCITY;
-        double angleToTarget = angleTo(robot.getRobotPositionX(),
-                robot.getRobotPositionY(), targetPositionX, targetPositionY);
+        double velocity = Constants.MAX_VELOCITY;
+        double angleToTarget = angleTo(robot.getPositionX(),
+                robot.getPositionY(), targetPositionX, targetPositionY);
         double angularVelocity = 0;
 
         double angle = asNormalizedRadians(angleToTarget - robot.getRobotDirection());
 
         if (angle < Math.PI / 2) {
-            angularVelocity = RobotState.MAX_ANGULAR_VELOCITY;
+            angularVelocity = Constants.MAX_ANGULAR_VELOCITY;
         } else if (angle > Math.PI / 2) {
-            angularVelocity = -RobotState.MAX_ANGULAR_VELOCITY;
+            angularVelocity = -Constants.MAX_ANGULAR_VELOCITY;
         }
 
-        velocity = applyLimits(velocity, 0, RobotState.MAX_VELOCITY);
-        angularVelocity = applyLimits(angularVelocity, -RobotState.MAX_ANGULAR_VELOCITY,
-                RobotState.MAX_ANGULAR_VELOCITY);
-        double newX = robot.getRobotPositionX() + velocity / angularVelocity *
+        velocity = applyLimits(velocity, 0, Constants.MAX_VELOCITY);
+        angularVelocity = applyLimits(angularVelocity, -Constants.MAX_ANGULAR_VELOCITY,
+                Constants.MAX_ANGULAR_VELOCITY);
+        double newX = robot.getPositionX() + velocity / angularVelocity *
                 (Math.sin(robot.getRobotDirection()  + angularVelocity * duration) -
                         Math.sin(robot.getRobotDirection()));
         if (!Double.isFinite(newX))
         {
-            newX = robot.getRobotPositionX() +
+            newX = robot.getPositionX() +
                     velocity * duration * Math.cos(robot.getRobotDirection());
         }
-        double newY = robot.getRobotPositionY() - velocity / angularVelocity *
+        double newY = robot.getPositionY() - velocity / angularVelocity *
                 (Math.cos(robot.getRobotDirection()  + angularVelocity * duration) -
                         Math.cos(robot.getRobotDirection()));
         if (!Double.isFinite(newY))
         {
-            newY = robot.getRobotPositionY() +
+            newY = robot.getPositionY() +
                     velocity * duration * Math.sin(robot.getRobotDirection());
         }
-        robot.setRobotPositionX(newX);
-        robot.setRobotPositionY(newY);
+        robot.setPositionX(newX);
+        robot.setPositionY(newY);
         double newDirection =
                 asNormalizedRadians(robot.getRobotDirection() +
                         angularVelocity * duration);
