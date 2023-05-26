@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class LogWindowSource
 {
-    private  int iQueueLength;
+    private int iQueueLength;
     private LimitedBlockingDeque<LogEntry> messages;
     private final ArrayList<LogChangeListener> listeners;
     private volatile LogChangeListener[] activeListeners;

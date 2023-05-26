@@ -1,6 +1,8 @@
 package log;
 
 import MVC.Constants;
+import gui.GameWindow;
+import gui.RobotController;
 
 import javax.swing.*;
 import java.util.*;
@@ -14,6 +16,9 @@ public class Localization {
                     Constants.RESOURCE_BUNDLE_NAME,
                     sk_loc.get()));
     private ArrayList<ArrayList<Object>> setObjectsChange =
+            new ArrayList<>();
+
+    private ArrayList<ArrayList<Object>> setFieldChange =
             new ArrayList<>();
 
     public void addElement(AbstractButton button, String key)
@@ -50,6 +55,7 @@ public class Localization {
        element.setText(bundle.get().getString(key));
 
    }
+
 
     public String getStringResource(String key) {
         return bundle.get().getString(key);

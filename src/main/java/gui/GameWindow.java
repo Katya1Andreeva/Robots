@@ -1,5 +1,7 @@
 package gui;
 
+import log.Localization;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JInternalFrame;
@@ -10,7 +12,8 @@ public class GameWindow extends JInternalFrame
 
     public GameWindow(RobotController controller)
     {
-        super("Игровое поле", true, true, true, true);
+        super("Working protocols",
+                true, true, true, true);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(controller.getVisualizer(), BorderLayout.CENTER);

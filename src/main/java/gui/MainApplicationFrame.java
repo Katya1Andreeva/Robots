@@ -14,6 +14,9 @@ import javax.swing.*;
 import log.Localization;
 import log.Logger;
 
+import static MVC.Constants.GAME_WINDOW_HEIGHT;
+import static MVC.Constants.GAME_WINDOW_WIDTH;
+
 /**
  * Что требуется сделать:
  * 1. Метод создания меню перегружен функционалом и трудно читается. 
@@ -28,8 +31,6 @@ public class MainApplicationFrame extends JFrame
     private final RobotController controller;
     
     public MainApplicationFrame() {
-        //Make the big window be indented 50 pixels from each edge
-        //of the screen.
         int inset = 50;        
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset, inset,
@@ -45,9 +46,9 @@ public class MainApplicationFrame extends JFrame
         this.controller = new RobotController();
 
         GameWindow gameWindow = new GameWindow(controller);
-        gameWindow.setSize(400,  400);
-        addWindow(gameWindow);
 
+        gameWindow.setSize(GAME_WINDOW_WIDTH,  GAME_WINDOW_HEIGHT);
+        addWindow(gameWindow);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -66,7 +67,7 @@ public class MainApplicationFrame extends JFrame
         logWindow.setSize(300, 800);
         setMinimumSize(logWindow.getSize());
         logWindow.pack();
-        Logger.debug("Протокол работает");
+        Logger.debug("protocol works");
         return logWindow;
     }
     
