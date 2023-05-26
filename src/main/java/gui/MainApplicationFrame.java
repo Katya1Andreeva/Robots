@@ -141,7 +141,7 @@ public class MainApplicationFrame extends JFrame
                     lok.getStringResource("messageLog"),
                                            KeyEvent.VK_S);
             addLogMessageItem.addActionListener((event) -> {
-                Logger.debug("Новая строка");
+                Logger.debug("New string");
             });
             testMenu.add(addLogMessageItem);
             lok.addElement(addLogMessageItem, "messageLog");
