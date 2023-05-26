@@ -1,16 +1,18 @@
 package log;
 
+import MVC.Constants;
+
 import javax.swing.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Localization {
-    public static final String RESOURCE_BUNDLE_NAME = "message";
     private AtomicReference<Locale> sk_loc = new AtomicReference<>(new Locale("en"));
     private AtomicReference<ResourceBundle> bundle =
-            new AtomicReference<>(ResourceBundle.getBundle("message",
-                                                           sk_loc.get()));
+            new AtomicReference<>(ResourceBundle.getBundle(
+                    Constants.RESOURCE_BUNDLE_NAME,
+                    sk_loc.get()));
     private ArrayList<ArrayList<Object>> setObjectsChange =
             new ArrayList<>();
 
@@ -27,7 +29,9 @@ public class Localization {
     public void changeLocale(String language)
     {
         sk_loc.set(new Locale(language));
-        bundle.set(ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, sk_loc.get()));
+        bundle.set(ResourceBundle.getBundle(
+                Constants.RESOURCE_BUNDLE_NAME,
+                sk_loc.get()));
     }
 
     public void changeLanguage(String newLocale)
